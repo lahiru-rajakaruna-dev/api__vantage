@@ -13,7 +13,6 @@ env:
 jobs:
   test_units:
     environment: test
-    name: Testing Project Units
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -30,3 +29,16 @@ jobs:
 
       - name: Run unit test
         run: pnpm run test
+
+  test-build:
+    environment: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        run: npm i -g pnpm@latest
+
+      - name: Build Image
+        run: docker build -t ghcr.io/lahiru-rajakaruna-dev/vantage-api:v0.1

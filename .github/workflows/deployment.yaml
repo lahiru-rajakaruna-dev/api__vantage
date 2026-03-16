@@ -41,7 +41,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: read
     environment: production
     env:
       DOCKER_IMAGE_NAME: ${{secrets.GCLOUD_ARTIFACT_REGISTRY_LOCATION}}-docker.pkg.dev/${{secrets.GCLOUD_PROJECT_ID}}/${{secrets.GCLOUD_ARTIFACT_REGISTRY_REPO_NAME}}/api__vantage:v0.1

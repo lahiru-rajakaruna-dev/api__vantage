@@ -33,7 +33,6 @@ jobs:
         run: "docker push ghcr.io/${{github.actor}}/vantage_api:v0.1"
 
   build-and-push-to-google-cloud:
-    needs: [ build-and-push-to-ghcr ]
     runs-on: ubuntu-latest
     permissions:
       contents: read

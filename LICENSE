@@ -1,11 +1,36 @@
 /**
- * COPYRIGHT (C) 2026 BLAZE WEB TECHNOLOGY. ALL RIGHTS RESERVED.
- * * This software and all associated documentation are the proprietary 
- * property of BLAZE. This code is provided under a LIMITED USE LICENSE 
- * for evaluation and recruitment review purposes only.
- * * PROHIBITIONS:
- * - You may not redistribute, sub-license, or sell this source code.
- * - You may not use this code in any production environment.
- * - You may not modify this code for any purpose other than personal evaluation.
- * * For full licensing inquiries, contact: lahiru.rajakaruna.dev@gmail.com
- */
+
+* © 2026 Lahiru A. Rajakaruna — BLAZE Technologies. All Rights Reserved.
+*
+* This source code and all associated materials are the exclusive intellectual
+* property of Lahiru A. Rajakaruna and BLAZE Technologies.
+*
+* This repository is made publicly accessible strictly for:
+* • Technical evaluation
+* • Portfolio review
+* • Recruitment assessment
+*
+* ─────────────────────────────────────────────
+* 🚫 PROHIBITED USES
+* ─────────────────────────────────────────────
+* Any unauthorized use of this code is strictly prohibited, including:
+*
+* • Copying, reproducing, or redistributing this code (in whole or part)
+* • Using this code in production or commercial environments
+* • Modifying or deriving works for public or private use
+* • Reusing architecture, logic, or implementation patterns without permission
+*
+* ─────────────────────────────────────────────
+* ⚖️ LEGAL NOTICE
+* ─────────────────────────────────────────────
+* This code is protected under applicable copyright and intellectual property laws.
+* Unauthorized use may result in legal action.
+*
+* ─────────────────────────────────────────────
+* 📩 CONTACT
+* ─────────────────────────────────────────────
+* For licensing, collaboration, or usage permissions:
+* [lahiru.rajakaruna.dev@gmail.com](mailto:lahiru.rajakaruna.dev@gmail.com)
+*
+
+*/

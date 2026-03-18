@@ -22,6 +22,12 @@ import {
 import {
   EmployeesSyncsModule
 }                                                                         from './business_logic/employees_syncs/employees_syncs.module';
+import {ClientPaymentModule}                                              from './business_logic/client_payment/client_payment.module';
+import {EmployeeModule}                                                   from './business_logic/employee/employee.module';
+import {EmployeeAttendanceModule}                                         from './business_logic/employee_attendance/employee_attendance.module';
+import {EmployeeSalaryModule}                                             from './business_logic/employee_salary/employee_salary.module';
+import {EmployeesActivitiesModule}                                        from './business_logic/employees_activities/employees_activities.module';
+import {EmployeesSyncsModule}                                             from './business_logic/employees_syncs/employees_syncs.module';
 import {ItemModule}                                                       from './business_logic/item/item.module';
 import {
   OrganizationModule
@@ -29,17 +35,16 @@ import {
 import {
   OrganizationPaymentModule
 }                                                                         from './business_logic/organization_payment/organization-payment.module';
+import {OrganizationModule}                                               from './business_logic/organization/organization.module';
+import {OrganizationPaymentModule}                                        from './business_logic/organization_payment/organization-payment.module';
 import {SaleModule}                                                       from './business_logic/sale/sale.module';
-import {
-  SalesGroupModule
-}                                                                         from './business_logic/sales_group/sales_group.module';
+import {SalesGroupModule}                                                 from './business_logic/sales_group/sales_group.module';
 import {CacheModule}                                                      from './cache/cache.module';
 import {GuardModule}                                                      from './guard/guard.module';
 import {LoggerModule}                                                     from './logger/logger.module';
-import {MiddlewareModule}                                                 from './middleware/middleware.module'; // import { MiddlewareModule } from './middleware/middleware.module';
-import {
-  Middleware_OrganizationPuller
-}                                                                         from './middleware/organization_puller.middleware';
+import {AuthMiddlewareService}                                            from "./middleware/auth/auth.middleware.service";
+import {MiddlewareModule}                                                 from './middleware/middleware.module';
+import {SessionMiddlewareService}                                         from "./middleware/session/session.middleware.service";
 import {DrizzleModule}                                                    from './orm/drizzle/drizzle.module';
 import {OrmModule}                                                        from './orm/orm.module';
 import {PaddleModule}                                                     from './paddle/paddle.module';

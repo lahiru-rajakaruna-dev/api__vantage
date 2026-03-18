@@ -35,6 +35,7 @@ import {SaleModule}                                                       from '
 import {
   SalesGroupModule
 }                                                                         from './business_logic/sales_group/sales_group.module';
+import {CacheModule}                                                      from './cache/cache.module';
 import {GuardModule}                                                      from './guard/guard.module';
 import {LoggerModule}                                                     from './logger/logger.module';
 import {MiddlewareModule}                                                 from './middleware/middleware.module'; // import { MiddlewareModule } from './middleware/middleware.module';

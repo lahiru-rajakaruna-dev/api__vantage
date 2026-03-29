@@ -31,8 +31,10 @@ jobs:
         run: pnpm run test
 
   test-build:
-    environment: test
     runs-on: ubuntu-latest
+    environment: test
+    env:
+      DOCKER_IMAGE_TAG: ghcr.io/${{github.actor}}/vantage_api:${{github.sha}}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -41,4 +43,4 @@ jobs:
         run: npm i -g pnpm@latest
 
       - name: Build Image
-        run: docker build -t ghcr.io/lahiru-rajakaruna-dev/vantage-api:v0.1 .
+        run: docker build -t ${{env.DOCKER_IMAGE_TAG}} .

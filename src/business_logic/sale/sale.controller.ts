@@ -1,225 +1,207 @@
 import {
-    BadRequestException,
-    Body,
-    Controller,
-    Get,
-    Inject,
-    Param,
-    Post,
-    Req,
-    UsePipes,
-}                                from '@nestjs/common';
-import type ILoggerService       from '../../logger/logger.interface';
-import { TOKEN__LOGGER_FACTORY } from '../../logger/logger_factory/logger_factory.service';
+	BadRequestException,
+	Body,
+	Controller,
+	Get,
+	Inject,
+	Param,
+	Post,
+	Req,
+	UsePipes,
+}                              from '@nestjs/common';
+import type ILoggerService     from '../../logger/logger.interface';
+import {TOKEN__LOGGER_FACTORY} from '../../logger/logger_factory/logger_factory.service';
 import {
-    SchemaSaleData,
-    type TOrganizationSelect,
-    type TSaleData,
-    type TSaleSelect
-}                                from '../../orm/drizzle/drizzle-postgres/schema';
-import ZodSchemaValidationPipe   from '../../pipes/schema_validation.pipe';
-import { BaseController }        from '../abstract.base.controller';
-import { SaleService }           from './sale.service';
+	SchemaSaleData,
+	type TOrganizationSelect,
+	type TSaleData,
+	type TSaleSelect,
+}                              from '../../orm/drizzle/drizzle-postgres/schema';
+import ZodSchemaValidationPipe from '../../pipes/schema_validation.pipe';
+import {BaseController}        from '../abstract.base.controller';
+import {SaleService}           from './sale.service';
 
 
 
 @Controller('sales')
 export class SaleController extends BaseController {
-    private readonly saleService: SaleService;
-    
-    
-    constructor(
-        saleService: SaleService,
-        @Inject(TOKEN__LOGGER_FACTORY)
-        logger: ILoggerService
-    ) {
-        super(logger)
-        this.saleService = saleService;
-    }
-    
-    
-    @Get('/:sale_id')
-    async getSaleProfile(
-        @Req()
-        req: Request & {
-            organization: TOrganizationSelect,
-            user_id: string
-        },
-        @Param('sale_id')
-        sale_id: string,
-    ): Promise<TSaleSelect> {
-        const req_organization_id = this.validateOrganization(req)
-        
-        if (!sale_id) {
-            throw new BadRequestException('Missing sale_id')
-        }
-        
-        return await this.saleService.viewSaleById(
-            req_organization_id,
-            sale_id,
-        );
-    }
-    
-    
-    @Get('/organization')
-    async getSalesByOrganizationId(
-        @Req()
-        req: Request & {
-            organization: TOrganizationSelect,
-            user_id: string
-        },): Promise<TSaleSelect[]> {
-        const req_organization_id = this.validateOrganization(req)
-        return await this.saleService.getSalesByOrganizationId(req_organization_id,);
-    }
-    
-    
-    @Get('/sales-group/:sales_group_id')
-    async getSalesBySalesGroup(
-        @Req()
-        req: Request & {
-            organization: TOrganizationSelect,
-            user_id: string
-        },
-        @Param('sales_group_id')
-        sales_group_id: string
-    ): Promise<TSaleSelect[]> {
-        const req_organization_id = this.validateOrganization(req)
-        
-        if (!sales_group_id) {
-            throw new BadRequestException('Missing sales group id')
-        }
-        
-        return await this.saleService.getSalesBySalesGroupId(
-            req_organization_id,
-            sales_group_id
-        )
-    }
-    
-    
-    @Get('/employee/:employee_id')
-    async getSalesByEmployeeId(
-        @Req()
-        req: Request & {
-            organization: TOrganizationSelect,
-            user_id: string
-        },
-        @Param('employee_id')
-        employee_id: string,
-    ): Promise<TSaleSelect[]> {
-        const req_organization_id = this.validateOrganization(req)
-        
-        if (!employee_id) {
-            throw new BadRequestException('Missing employee id')
-        }
-        
-        return await this.saleService.getSalesByEmployeeId(
-            req_organization_id,
-            employee_id,
-        );
-    }
-    
-    
-    @Get('/item/:item_id')
-    async getSalesByItemId(
-        @Req()
-        req: Request & {
-            organization: TOrganizationSelect,
-            user_id: string
-        },
-        @Param('item_id')
-        item_id: string,
-    ): Promise<TSaleSelect[]> {
-        const req_organization_id = this.validateOrganization(req)
-        return await this.saleService.getSalesByItemId(
-            req_organization_id,
-            item_id,
-        );
-    }
-    
-    
-    @Get('/client/:client_id')
-    async getSalesByClientId(
-        @Req()
-        req: Request & {
-            organization: TOrganizationSelect,
-            user_id: string
-        },
-        @Param('client_id')
-        client_id: string,
-    ): Promise<TSaleSelect[]> {
-        const req_organization_id = this.validateOrganization(req)
-        return await this.saleService.getSalesByClientId(
-            req_organization_id,
-            client_id,
-        );
-    }
-    
-    
-    @Get('/date/:date')
-    async getSalesByDate(
-        @Req()
-        req: Request & {
-            organization: TOrganizationSelect,
-            user_id: string
-        },
-        @Param('date')
-        date: number,
-    ): Promise<TSaleSelect[]> {
-        const req_organization_id = this.validateOrganization(req)
-        return await this.saleService.getSalesByDate(
-            req_organization_id,
-            date,
-        );
-    }
-    
-    
-    @Get('/date-range/:date_start/:date_end')
-    async getSalesByDateRange(
-        @Req()
-        req: Request & {
-            organization: TOrganizationSelect,
-            user_id: string
-        },
-        @Param('date_start')
-        date_start: number,
-        @Param('date_end')
-        date_end: number,
-    ): Promise<TSaleSelect[]> {
-        
-        const req_organization_id = this.validateOrganization(req)
-        
-        return await this.saleService.getSalesWithinDates(
-            req_organization_id,
-            date_start,
-            date_end,
-        );
-    }
-    
-    
-    @Post()
-    @UsePipes(new ZodSchemaValidationPipe(SchemaSaleData))
-    async addSale(
-        @Req()
-        req: Request & {
-            organization: TOrganizationSelect,
-            user_id: string
-        },
-        @Body()
-        saleData: TSaleData
-    ): Promise<TSaleSelect[]> {
-        
-        const req_organization_id = this.validateOrganization(req)
-        const user_id             = req['cookies']['user_id'];
-        
-        if (!user_id) {
-            throw new BadRequestException('User not found...')
-        }
-        
-        return await this.saleService.addSale(
-            req_organization_id,
-            user_id,
-            saleData,
-        );
-    }
-    
+	private readonly saleService: SaleService;
+
+	constructor(
+		saleService: SaleService,
+		@Inject(TOKEN__LOGGER_FACTORY)
+		logger: ILoggerService,
+	) {
+		super(logger);
+		this.saleService = saleService;
+	}
+
+	@Get('/:sale_id')
+	async getSaleProfile(
+		@Req()
+		req: Request & {
+			organization: TOrganizationSelect;
+			user_id: string;
+		},
+		@Param('sale_id')
+		sale_id: string,
+	): Promise<TSaleSelect> {
+		const req_organization_id = this.validateOrganization(req);
+
+		if (!sale_id) {
+			throw new BadRequestException('Missing sale_id');
+		}
+
+		return await this.saleService.viewSaleById(req_organization_id, sale_id);
+	}
+
+	@Get('/organization')
+	async getSalesByOrganizationId(
+		@Req()
+		req: Request & {
+			organization: TOrganizationSelect;
+			user_id: string;
+		},
+	): Promise<TSaleSelect[]> {
+		const req_organization_id = this.validateOrganization(req);
+		return await this.saleService.getSalesByOrganizationId(req_organization_id);
+	}
+
+	@Get('/sales-group/:sales_group_id')
+	async getSalesBySalesGroup(
+		@Req()
+		req: Request & {
+			organization: TOrganizationSelect;
+			user_id: string;
+		},
+		@Param('sales_group_id')
+		sales_group_id: string,
+	): Promise<TSaleSelect[]> {
+		const req_organization_id = this.validateOrganization(req);
+
+		if (!sales_group_id) {
+			throw new BadRequestException('Missing sales group id');
+		}
+
+		return await this.saleService.getSalesBySalesGroupId(
+			req_organization_id,
+			sales_group_id,
+		);
+	}
+
+	@Get('/employee/:employee_id')
+	async getSalesByEmployeeId(
+		@Req()
+		req: Request & {
+			organization: TOrganizationSelect;
+			user_id: string;
+		},
+		@Param('employee_id')
+		employee_id: string,
+	): Promise<TSaleSelect[]> {
+		const req_organization_id = this.validateOrganization(req);
+
+		if (!employee_id) {
+			throw new BadRequestException('Missing employee id');
+		}
+
+		return await this.saleService.getSalesByEmployeeId(
+			req_organization_id,
+			employee_id,
+		);
+	}
+
+	@Get('/item/:item_id')
+	async getSalesByItemId(
+		@Req()
+		req: Request & {
+			organization: TOrganizationSelect;
+			user_id: string;
+		},
+		@Param('item_id')
+		item_id: string,
+	): Promise<TSaleSelect[]> {
+		const req_organization_id = this.validateOrganization(req);
+		return await this.saleService.getSalesByItemId(
+			req_organization_id,
+			item_id,
+		);
+	}
+
+	@Get('/client/:client_id')
+	async getSalesByClientId(
+		@Req()
+		req: Request & {
+			organization: TOrganizationSelect;
+			user_id: string;
+		},
+		@Param('client_id')
+		client_id: string,
+	): Promise<TSaleSelect[]> {
+		const req_organization_id = this.validateOrganization(req);
+		return await this.saleService.getSalesByClientId(
+			req_organization_id,
+			client_id,
+		);
+	}
+
+	@Get('/date/:date')
+	async getSalesByDate(
+		@Req()
+		req: Request & {
+			organization: TOrganizationSelect;
+			user_id: string;
+		},
+		@Param('date')
+		date: number,
+	): Promise<TSaleSelect[]> {
+		const req_organization_id = this.validateOrganization(req);
+		return await this.saleService.getSalesByDate(req_organization_id, date);
+	}
+
+	@Get('/date-range/:date_start/:date_end')
+	async getSalesByDateRange(
+		@Req()
+		req: Request & {
+			organization: TOrganizationSelect;
+			user_id: string;
+		},
+		@Param('date_start')
+		date_start: number,
+		@Param('date_end')
+		date_end: number,
+	): Promise<TSaleSelect[]> {
+		const req_organization_id = this.validateOrganization(req);
+
+		return await this.saleService.getSalesWithinDates(
+			req_organization_id,
+			date_start,
+			date_end,
+		);
+	}
+
+	@Post()
+	@UsePipes(new ZodSchemaValidationPipe(SchemaSaleData))
+	async addSale(
+		@Req()
+		req: Request & {
+			organization: TOrganizationSelect;
+			user_id: string;
+		},
+		@Body()
+		saleData: TSaleData,
+	): Promise<TSaleSelect[]> {
+		const req_organization_id = this.validateOrganization(req);
+		const user_id             = req['cookies']['user_id'];
+
+		if (!user_id) {
+			throw new BadRequestException('User not found...');
+		}
+
+		return await this.saleService.addSale(
+			req_organization_id,
+			user_id,
+			saleData,
+		);
+	}
 }

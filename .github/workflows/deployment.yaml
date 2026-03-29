@@ -38,7 +38,7 @@ jobs:
       contents: read
     environment: production
     env:
-      DOCKER_IMAGE_NAME: "${{secrets.GCLOUD_ARTIFACT_REGISTRY_LOCATION}}-docker.pkg.dev/${{secrets.GCLOUD_PROJECT_ID}}/${{secrets.GCLOUD_ARTIFACT_REGISTRY_REPO_NAME}}/api__vantage:${{github.sha}}"
+      DOCKER_IMAGE_NAME: "${{secrets.GCLOUD_ARTIFACT_REGISTRY_LOCATION}}-docker.pkg.dev/${{secrets.GCLOUD_PROJECT_ID}}/${{secrets.GCLOUD_ARTIFACT_REGISTRY_REPO_NAME}}/vantage_api:${{github.sha}}"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -72,6 +72,6 @@ jobs:
       - name: Deploy Image
         uses: google-github-actions/deploy-cloudrun@v2
         with:
-          service: vantage-runner
+          service: vantage-api
           image: ${{env.DOCKER_IMAGE_NAME}}
           region: 'asia-southeast1'

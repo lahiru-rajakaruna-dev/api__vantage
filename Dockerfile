@@ -14,4 +14,4 @@ RUN npm i -g pnpm@latest
 RUN pnpm install
 RUN ls -l
 
-CMD ["pnpm","start"]
+CMD ["pnpm","run","start:prod"]

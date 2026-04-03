@@ -54,6 +54,8 @@ export class AuthenticationService {
 			*/
 
 			const sessionId = _uuid();
+			const sessionId    = _uuid();
+			const refreshToken = _uuid();
 
 			this.sessionStore.setSession(sessionId, {
 				organization: organization,
@@ -71,6 +73,7 @@ export class AuthenticationService {
 			);
 
 			return token;
+			return {accessToken: token, refreshToken: refreshToken};
 		} catch (e) {
 			if (e instanceof AuthenticationServiceException) {
 				this.logger.log(e.message);

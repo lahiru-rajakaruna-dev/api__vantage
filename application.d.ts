@@ -11,7 +11,7 @@ namespace e {
 		user_id: string | undefined
 		organization_id: string | undefined
 		sessionId: string
-		session: TOrganizationSelect
+		session: { organization: TOrganizationSelect | undefined, userId: string }
 	}
 
 

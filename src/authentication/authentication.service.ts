@@ -1,19 +1,13 @@
-import {
-	HttpException,
-	HttpStatus,
-	Inject,
-	Injectable,
-	InternalServerErrorException,
-}                                     from '@nestjs/common';
-import {ConfigService}                from '@nestjs/config';
-import jwt                            from 'jsonwebtoken';
-import {v4 as _uuid}                  from 'uuid';
-import {OrganizationService}          from '../business_logic/organization/organization.service';
-import type ILoggerService            from '../logger/logger.interface';
-import {TOKEN__LOGGER_FACTORY}        from '../logger/logger_factory/logger_factory.service';
-import {ISessionStore}                from '../session_store/interface.session_store.service';
-import {NodeCacheSessionStoreService} from '../session_store/node_cache.session_store/node_cache.session_store.service';
-import {EEnvVars}                     from '../types';
+import {HttpException, HttpStatus, Inject, Injectable, InternalServerErrorException,} from '@nestjs/common';
+import {ConfigService}                                                                from '@nestjs/config';
+import jwt                                                                            from 'jsonwebtoken';
+import {v4 as _uuid}                                                                  from 'uuid';
+import {OrganizationService}                                                          from '../business_logic/organization/organization.service';
+import type ILoggerService                                                            from '../logger/logger.interface';
+import {TOKEN__LOGGER_FACTORY}                                                        from '../logger/logger_factory/logger_factory.service';
+import {ISessionStore}                                                                from '../session_store/interface.session_store.service';
+import {NodeCacheSessionStoreService}                                                 from '../session_store/node_cache.session_store/node_cache.session_store.service';
+import {EEnvVars}                                                                     from '../types';
 
 
 
@@ -53,7 +47,6 @@ export class AuthenticationService {
 						}
 			*/
 
-			const sessionId = _uuid();
 			const sessionId    = _uuid();
 			const refreshToken = _uuid();
 
@@ -72,7 +65,6 @@ export class AuthenticationService {
 				},
 			);
 
-			return token;
 			return {accessToken: token, refreshToken: refreshToken};
 		} catch (e) {
 			if (e instanceof AuthenticationServiceException) {

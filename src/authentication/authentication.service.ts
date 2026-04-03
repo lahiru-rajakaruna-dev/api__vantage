@@ -47,13 +47,18 @@ export class AuthenticationService {
 			const organization =
 					  await this.organizationService.getOrganizationDetailsByAdmin(userId);
 
-			if (!organization) {
-				throw new AuthenticationServiceException('Organization not found');
-			}
+			/*
+						if (!organization) {
+							throw new AuthenticationServiceException('Organization not found');
+						}
+			*/
 
 			const sessionId = _uuid();
 
-			this.sessionStore.setSession(sessionId, organization);
+			this.sessionStore.setSession(sessionId, {
+				organization: organization,
+				userId      : userId
+			});
 
 			const token = jwt.sign(
 				{

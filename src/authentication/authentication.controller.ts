@@ -1,18 +1,9 @@
-import {
-	Controller,
-	Get,
-	HttpException,
-	HttpStatus,
-	Inject,
-	Req,
-	Request,
-	Res,
-}                              from '@nestjs/common';
-import {ConfigService}         from '@nestjs/config';
-import {e}                     from '../../application';
-import type ILoggerService     from '../logger/logger.interface';
-import {TOKEN__LOGGER_FACTORY} from '../logger/logger_factory/logger_factory.service';
-import {AuthenticationService} from './authentication.service';
+import {Controller, Get, HttpException, HttpStatus, Inject, Req, Request, Res,} from '@nestjs/common';
+import {ConfigService}                                                          from '@nestjs/config';
+import {e}                                                                      from '../../application';
+import type ILoggerService                                                      from '../logger/logger.interface';
+import {TOKEN__LOGGER_FACTORY}                                                  from '../logger/logger_factory/logger_factory.service';
+import {AuthenticationService}                                                  from './authentication.service';
 
 
 
@@ -60,14 +51,20 @@ export class AuthenticationController {
 			throw new HttpException('Unauthenticated', HttpStatus.UNAUTHORIZED);
 		}
 
-		const jwt = await this.authenticationService.authenticate(userId);
-		response.cookie('access_token', jwt, {
+		const {accessToken, refreshToken} = await this.authenticationService.authenticate(userId);
+		response.cookie('access_token', accessToken, {
 			httpOnly: true,
 			secure  : true,
 			maxAge  : 1000 * 60 * 60 * 24,
 			sameSite: 'strict',
 			path    : '/',
 		});
+		response.cookie('refresh_token', refreshToken, {
+			httpOnly: true,
+			secure  : true,
+			sameSite: 'strict',
+			path    : '/'
+		})
 
 		return true;
 	}

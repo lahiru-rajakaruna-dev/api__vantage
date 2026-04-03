@@ -1,14 +1,9 @@
-import {
-	HttpException,
-	HttpStatus,
-	Injectable,
-	NestMiddleware,
-}                                     from '@nestjs/common';
-import {ConfigService}                from '@nestjs/config';
-import {e}                            from '../../../application';
-import {TOrganizationSelect}          from '../../orm/drizzle/drizzle-postgres/schema';
-import {ISessionStore}                from '../../session_store/interface.session_store.service';
-import {NodeCacheSessionStoreService} from '../../session_store/node_cache.session_store/node_cache.session_store.service';
+import {HttpException, HttpStatus, Injectable, NestMiddleware,} from '@nestjs/common';
+import {ConfigService}                                          from '@nestjs/config';
+import {e}                                                      from '../../../application';
+import {TOrganizationSelect}                                    from '../../orm/drizzle/drizzle-postgres/schema';
+import {ISessionStore}                                          from '../../session_store/interface.session_store.service';
+import {NodeCacheSessionStoreService}                           from '../../session_store/node_cache.session_store/node_cache.session_store.service';
 import NestRequest = e.NestRequest;
 
 
@@ -31,10 +26,11 @@ export class SessionMiddlewareService implements NestMiddleware {
 	use(req: NestRequest, res: Response, next: (error?: any) => void): any {
 		const {sessionId} = req;
 
-		const session = this.sessionStore.getSession(
-			sessionId,
-		) as TOrganizationSelect;
-		if (!session || !session.organization_id) {
+		const session = this.sessionStore.getSession(sessionId) as {
+			organization: TOrganizationSelect | undefined,
+			userId: string
+		};
+		if (!session || !session.userId) {
 			throw new HttpException('Session not found...', HttpStatus.BAD_REQUEST);
 		}
 

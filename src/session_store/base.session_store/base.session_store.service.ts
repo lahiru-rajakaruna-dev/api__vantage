@@ -18,15 +18,18 @@ export abstract class BaseSessionStoreService implements ISessionStore {
 		return this.getDriver().del(id) !== undefined;
 	}
 
-	getSession(id: string): TOrganizationSelect | undefined {
+	getSession(id: string): { organization: TOrganizationSelect | undefined; userId: string } | undefined {
 		const data = this.getDriver().get(id);
 		if (data instanceof Object) {
-			return data as TOrganizationSelect;
+			return data as { organization: TOrganizationSelect | undefined; userId: string };
 		}
 		return undefined;
 	}
 
-	setSession(id: string, buffer: TOrganizationSelect): boolean | undefined {
+	setSession(id: string, buffer: {
+		organization: TOrganizationSelect | undefined;
+		userId: string
+	}): boolean | undefined {
 		return this.getDriver().set(id, buffer) !== undefined;
 	}
 }

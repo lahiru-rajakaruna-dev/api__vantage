@@ -30,11 +30,14 @@ export class NodeCacheSessionStoreService extends BaseSessionStoreService {
 		return super.deleteSession(id);
 	}
 
-	getSession(id: string): TOrganizationSelect | undefined {
+	getSession(id: string): { organization: TOrganizationSelect | undefined; userId: string } | undefined {
 		return super.getSession(id);
 	}
 
-	setSession(id: string, buffer: TOrganizationSelect): boolean | undefined {
+	setSession(id: string, buffer: {
+		organization: TOrganizationSelect | undefined;
+		userId: string
+	}): boolean | undefined {
 		return super.setSession(id, buffer);
 	}
 }

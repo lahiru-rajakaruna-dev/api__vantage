@@ -75,9 +75,3 @@ G2 --> L[Return Response to Client]
 ```
 
 ---
-
-## 🚀 Key Engineering Decisions
-
-### 1. Hybrid JWT + Session Validation
-
-Instead of
